@@ -1,1 +1,2 @@
-FLASK_APP=src/server.py
+FLASK_APP=src/chaddi_api.py
+FLASK_DEBUG=1

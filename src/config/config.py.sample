@@ -1,0 +1,8 @@
+config = {
+    "quotes" : {
+        "file_location" : "/Users/archit/Dev/chaddi-tg/src/resources/quotes.pickle"
+    }
+}
+
+def get_config():
+    return config
