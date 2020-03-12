@@ -4,10 +4,6 @@
 # Stop if there is an error
 set -e
 
-pwd
-
-ls -l
-
 # Go to chaddi home
 cd /opt/software/chaddi-api/scripts/
 
