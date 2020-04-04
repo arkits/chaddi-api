@@ -27,7 +27,10 @@ def get_all_quotes():
 
     else:
 
-        resp = make_response(quotes, 200)
+        j_quotes = json.dumps(quotes, indent=4, sort_keys=True, default=str)
+
+        resp = make_response(j_quotes, 200)
+        resp.headers['Content-Type'] = "application/json"
 
     return resp
 
@@ -48,8 +51,10 @@ def get_quotes_random():
     else:
 
         random_quote = random.choice(quotes)
+        j_quote = json.dumps(random_quote, indent=4, sort_keys=True, default=str)
 
-        resp = make_response(random_quote, 200)
+        resp = make_response(j_quote, 200)
+        resp.headers['Content-Type'] = "application/json"
 
     return resp
 
