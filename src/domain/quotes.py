@@ -12,6 +12,26 @@ from config import config
 api_config = config.get_config()
 
 
+def get_all_quotes():
+
+    quotes = read_quotes_pickle()
+
+    if quotes is None:
+
+        resp = make_response(
+            {
+                "error": "arkits messed it up!"
+            },
+            500
+        )
+
+    else:
+
+        resp = make_response(quotes, 200)
+
+    return resp
+
+
 def get_quotes_random():
 
     quotes = read_quotes_pickle()
