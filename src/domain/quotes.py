@@ -7,6 +7,7 @@ from flask import make_response
 
 from loguru import logger
 
+from db import dao
 from config import config
 
 api_config = config.get_config()
@@ -14,7 +15,7 @@ api_config = config.get_config()
 
 def get_all_quotes():
 
-    quotes = read_quotes_pickle()
+    quotes = dao.get_all_quotes()
 
     if quotes is None:
 
@@ -37,7 +38,7 @@ def get_all_quotes():
 
 def get_quotes_random():
 
-    quotes = read_quotes_pickle()
+    quotes = dao.get_all_quotes()
 
     if quotes is None:
 
@@ -51,33 +52,10 @@ def get_quotes_random():
     else:
 
         random_quote = random.choice(quotes)
-        j_quote = json.dumps(random_quote, indent=4, sort_keys=True, default=str)
+        j_quote = json.dumps(random_quote, indent=4,
+                             sort_keys=True, default=str)
 
         resp = make_response(j_quote, 200)
         resp.headers['Content-Type'] = "application/json"
 
     return resp
-
-
-def read_quotes_pickle():
-
-    quotes = None
-
-    quotes_file_location = api_config["quotes"]["file_location"]
-
-    try:
-        with open(quotes_file_location, 'rb') as handle:
-
-            read_pickle = pickle.load(handle)
-
-            quotes = []
-
-            for quote in list(read_pickle.values()):
-
-                quotes.append(quote)
-
-    except Exception as e:
-
-        logger.info("Error in read_quotes_pickle - {} ", e)
-
-    return quotes
