@@ -1,6 +1,6 @@
 config = {
-    "quotes" : {
-        "file_location" : "/Users/archit/Dev/chaddi-tg/src/resources/quotes.pickle"
+    "db" : {
+        "uri" : "/path/to/chaddi.db"
     }
 }
 
