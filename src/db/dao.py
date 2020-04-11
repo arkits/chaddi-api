@@ -3,6 +3,7 @@ from loguru import logger
 import json
 import traceback
 from config import config
+from models.bakchod import Bakchod
 
 api_config = config.get_config()
 
@@ -42,13 +43,13 @@ def get_all_quotes():
 
 
 def sanitizeQuoteMessage(message):
-    
+
     if isinstance(message, (bytes, bytearray)):
         return str(message, "utf-8")
     else:
         if message.startswith("b'"):
             return message[1][2:-1]
-    
+
     return message
 
 
@@ -96,3 +97,36 @@ def get_all_quotes_ids():
         )
 
     return all_quote_ids
+
+
+def get_all_bakchods():
+
+    bakchods = []
+
+    try:
+        c.execute("""SELECT * FROM bakchods""")
+        query_results = c.fetchall()
+
+        if query_results is not None:
+
+            for query_result in query_results:
+
+                bakchod = Bakchod(
+                    query_result[0], query_result[1], query_result[2])
+                bakchod.lastseen = query_result[3]
+                bakchod.rokda = query_result[4]
+                bakchod.birthday = query_result[5]
+                bakchod.history = json.loads(query_result[6])
+                bakchod.censored = bool(query_result[7])
+
+                bakchods.append(bakchod)
+
+    except Exception as e:
+
+        logger.error(
+            "Caught Error in dao.get_all_bakchods - {} \n {}",
+            e,
+            traceback.format_exc(),
+        )
+
+    return bakchods
