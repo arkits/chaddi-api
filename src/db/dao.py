@@ -23,14 +23,9 @@ def get_all_quotes():
             all_quotes = []
 
             for q in query_result:
-
                 quote = {}
                 quote["id"] = q[0]
-                try:
-                    quote["message"] = q[1].decode("utf-8")
-                except Exception as e:
-                    quote["message"] = q[1][2:-1]
-                    pass
+                quote["message"] = sanitizeQuoteMessage(q[1])
                 quote["user"] = q[2]
                 quote["date"] = q[3]  # TODO: Cast to Python datetime
 
@@ -46,6 +41,17 @@ def get_all_quotes():
     return all_quotes
 
 
+def sanitizeQuoteMessage(message):
+    
+    if isinstance(message, (bytes, bytearray)):
+        return str(message, "utf-8")
+    else:
+        if message.startswith("b'"):
+            return message[1][2:-1]
+    
+    return message
+
+
 def get_quote_by_id(quote_id):
 
     quote = None
@@ -56,14 +62,10 @@ def get_quote_by_id(quote_id):
 
         if query_result is not None:
             quote = {}
-            quote["id"] = query_result[0]
-            try:
-                quote["message"] = query_result[1].decode("utf-8")
-            except Exception as e:
-                quote["message"] = query_result[1][2:-1]
-                pass
-            quote["user"] = query_result[2]
-            quote["date"] = query_result[3]  # TODO: Cast to Python datetime
+            quote["id"] = q[0]
+            quote["message"] = sanitizeQuoteMessage(q[1])
+            quote["user"] = q[2]
+            quote["date"] = q[3]  # TODO: Cast to Python datetime
 
     except Exception as e:
         logger.error(
