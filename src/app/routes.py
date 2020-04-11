@@ -22,12 +22,12 @@ def all_quotes_handler():
     return quotes.get_all_quotes()
 
 
-@app.route('/bakchods/', methods=['GET'])
+@app.route('/bakchods', methods=['GET'])
 def all_bakchods_handler():
     # sort = request.args.get('sort', default=None, type=str)
     # order = request.args.get('order', default="ASC", type=str)
     return bakchods.get_all_bakchods()
 
-@app.route('/daans/', methods=['GET'])
+@app.route('/daans', methods=['GET'])
 def daans_handler():
     return daans.get_all_daans()
