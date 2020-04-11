@@ -24,9 +24,10 @@ def all_quotes_handler():
 
 @app.route('/bakchods', methods=['GET'])
 def all_bakchods_handler():
-    # sort = request.args.get('sort', default=None, type=str)
-    # order = request.args.get('order', default="ASC", type=str)
-    return bakchods.get_all_bakchods()
+    sort = request.args.get('sort', default="lastseen", type=str)
+    order = request.args.get('order', default="DESC", type=str)
+    return bakchods.get_all_bakchods(sort, order)
+
 
 @app.route('/daans', methods=['GET'])
 def daans_handler():

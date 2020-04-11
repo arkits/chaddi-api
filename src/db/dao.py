@@ -99,13 +99,16 @@ def get_all_quotes_ids():
     return all_quote_ids
 
 
-def get_all_bakchods():
+def get_all_bakchods(sort, order):
 
     bakchods = []
 
     try:
-        c.execute("""SELECT * FROM bakchods""")
+        statement = "SELECT * FROM bakchods ORDER BY {} {}".format(sort, order)
+        c.execute(statement)
         query_results = c.fetchall()
+
+        logger.info(query_results[0])
 
         if query_results is not None:
 
