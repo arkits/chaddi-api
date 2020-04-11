@@ -130,3 +130,33 @@ def get_all_bakchods():
         )
 
     return bakchods
+
+
+def get_all_daans():
+
+    daans = []
+
+    try:
+        c.execute("""SELECT * FROM daans ORDER by date DESC """)
+        query_results = c.fetchall()
+
+        if query_results is not None:
+
+            for query_result in query_results:
+
+                daan = {}
+                daan["id"] = query_result[0]
+                daan["sender"] = query_result[1]
+                daan["receiver"] = query_result[2]
+                daan["amount"] = query_result[3]
+                daan["date"] = query_result[4]
+
+                daans.append(daan)
+
+    except Exception as e:
+
+        logger.error(
+            "Caught Error in dao.get_all_daans - {} \n {}", e, traceback.format_exc(),
+        )
+
+    return daans

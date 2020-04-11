@@ -2,6 +2,7 @@ from app import app
 from domain import version
 from domain import quotes
 from domain import bakchods
+from domain import daans
 from flask import request
 from loguru import logger
 
@@ -26,3 +27,7 @@ def all_bakchods_handler():
     # sort = request.args.get('sort', default=None, type=str)
     # order = request.args.get('order', default="ASC", type=str)
     return bakchods.get_all_bakchods()
+
+@app.route('/daans/', methods=['GET'])
+def daans_handler():
+    return daans.get_all_daans()
