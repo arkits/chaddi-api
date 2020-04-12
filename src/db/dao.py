@@ -4,6 +4,7 @@ import json
 import traceback
 from config import config
 from models.bakchod import Bakchod
+from models.group import Group
 
 api_config = config.get_config()
 
@@ -164,3 +165,34 @@ def get_all_daans():
         )
 
     return daans
+
+
+def get_all_groups():
+
+    groups = []
+
+    try:
+        c.execute("""SELECT * FROM groups""")
+        query_results = c.fetchall()
+
+        if query_results is not None:
+
+            for query_result in query_results:
+                group = Group(query_result[0], query_result[1])
+
+                # Santize Group Members
+                members_str = []
+                members = json.loads(query_result[2])
+                for id in members:
+                    if str(id) not in members_str:
+                        members_str.append(str(id))
+                group.members = members_str
+
+                groups.append(group)
+
+    except Exception as e:
+        logger.error(
+            "Caught Error in dao.get_all_groups - {} \n {}", e, traceback.format_exc(),
+        )
+
+    return groups

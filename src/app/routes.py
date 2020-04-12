@@ -3,6 +3,7 @@ from domain import version
 from domain import quotes
 from domain import bakchods
 from domain import daans
+from domain import groups
 from flask import request
 from loguru import logger
 
@@ -32,3 +33,7 @@ def all_bakchods_handler():
 @app.route('/daans', methods=['GET'])
 def daans_handler():
     return daans.get_all_daans()
+
+@app.route('/groups', methods=['GET'])
+def groups_handler():
+    return groups.get_all_groups()
