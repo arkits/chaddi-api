@@ -116,13 +116,12 @@ def get_all_bakchods(sort, order):
 
             for query_result in query_results:
 
-                bakchod = Bakchod(
-                    query_result[0], query_result[1], query_result[2])
+                bakchod = Bakchod(query_result[0], query_result[1], query_result[2])
                 bakchod.lastseen = query_result[3]
                 bakchod.rokda = query_result[4]
                 bakchod.birthday = query_result[5]
                 bakchod.history = json.loads(query_result[6])
-                bakchod.censored = bool(query_result[7])
+                bakchod.modifiers = json.loads(query_result[7])
 
                 bakchods.append(bakchod)
 
