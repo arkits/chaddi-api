@@ -21,9 +21,17 @@ def get_all_quotes():
 
     else:
 
-        j_quotes = json.dumps(quotes, indent=4, sort_keys=True, default=str)
-        resp = make_response(j_quotes, 200)
-    
+        santized_quotes = []
+
+        for quote in quotes:
+            santized_quote = sanitize_quote(quote)
+            santized_quotes.append(santized_quote)
+
+        marshalled_quotes = json.dumps(
+            santized_quotes, indent=4, sort_keys=True, default=str)
+
+        resp = make_response(marshalled_quotes, 200)
+
     resp.headers['Content-Type'] = "application/json"
     return resp
 
@@ -44,8 +52,41 @@ def get_quotes_random():
     else:
 
         random_quote = random.choice(quotes)
-        j_quote = json.dumps(random_quote, indent=4, sort_keys=True, default=str)
+        random_quote = sanitize_quote(random_quote)
+
+        j_quote = json.dumps(random_quote, indent=4,
+                             sort_keys=True, default=str)
         resp = make_response(j_quote, 200)
-    
+
     resp.headers['Content-Type'] = "application/json"
     return resp
+
+
+def sanitize_quote(quote):
+
+    santized_quote_messages = []
+
+    quote_messages = quote["message"]
+
+    for quote_message in quote_messages:
+
+        quote_message["message"] = sanitize_quote_message(
+            quote_message["message"])
+
+        santized_quote_messages.append(quote_message)
+
+    quote["message"] = santized_quote_messages
+
+    return quote
+
+
+def sanitize_quote_message(message):
+
+    if isinstance(message, (bytes, bytearray)):
+        return str(message, "utf-8")
+    else:
+        if message.startswith("b'") or message.startswith('b"'):
+            trimed = message[2:-1]
+            return trimed
+
+    return message

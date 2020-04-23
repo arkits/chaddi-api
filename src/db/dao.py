@@ -43,18 +43,6 @@ def get_all_quotes():
     return all_quotes
 
 
-def sanitizeQuoteMessage(message):
-
-    if isinstance(message, (bytes, bytearray)):
-        return str(message, "utf-8")
-    else:
-        if message.startswith("b'"):
-            trimed = message[2:-1]
-            return trimed
-
-    return message
-
-
 def get_quote_by_id(quote_id):
 
     quote = None
@@ -116,7 +104,8 @@ def get_all_bakchods(sort, order):
 
             for query_result in query_results:
 
-                bakchod = Bakchod(query_result[0], query_result[1], query_result[2])
+                bakchod = Bakchod(
+                    query_result[0], query_result[1], query_result[2])
                 bakchod.lastseen = query_result[3]
                 bakchod.rokda = query_result[4]
                 bakchod.birthday = query_result[5]
