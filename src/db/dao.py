@@ -27,7 +27,7 @@ def get_all_quotes():
             for q in query_result:
                 quote = {}
                 quote["id"] = q[0]
-                quote["message"] = sanitizeQuoteMessage(q[1])
+                quote["message"] = json.loads(q[1])
                 quote["user"] = q[2]
                 quote["date"] = q[3]  # TODO: Cast to Python datetime
 
@@ -65,10 +65,10 @@ def get_quote_by_id(quote_id):
 
         if query_result is not None:
             quote = {}
-            quote["id"] = q[0]
-            quote["message"] = sanitizeQuoteMessage(q[1])
-            quote["user"] = q[2]
-            quote["date"] = q[3]  # TODO: Cast to Python datetime
+            quote["id"] = query_result[0]
+            quote["message"] = json.loads(query_result[1])
+            quote["user"] = query_result[2]
+            quote["date"] = query_result[3]
 
     except Exception as e:
         logger.error(
