@@ -3,7 +3,7 @@ Flask==1.1.1
 Flask-Cors==3.0.8
 gunicorn==20.0.4
 itsdangerous==1.1.0
-Jinja2==2.11.1
+Jinja2==2.11.3
 loguru==0.4.1
 MarkupSafe==1.1.1
 python-dotenv==0.12.0
